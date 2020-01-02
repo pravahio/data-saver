@@ -9,8 +9,8 @@ import atc
 def main():
     prog = [transit, solar, air_quality, atc]
 
-    print(os.getenv('PRAVAH_DB_USERNAME'))
-    print(os.getenv('PRAVAH_DB_PASSWORD'))
+    print('PRAVAH_DB_USERNAME:' + os.getenv('PRAVAH_DB_USERNAME'))
+    print('PRAVAH_DB_PASSWORD:' + os.getenv('PRAVAH_DB_PASSWORD'))
 
     for p in prog:
         threading.Thread(target=start_prog, args=(p,)).start()
