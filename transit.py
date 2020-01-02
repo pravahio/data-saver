@@ -1,4 +1,5 @@
 import json
+import os
 
 from dlake import Datalake
 from mesh_gtfsr.mesh import MeshGTFSR
@@ -24,10 +25,10 @@ def start():
     c = MeshGTFSR('rpc.pravah.io:5555')
     feed = c.subscribe(geospace)
 
-    datalake = Datalake('pravah', '', c.get_channel())
+    datalake = Datalake(os.getenv('PRAVAH_DB_USERNAME'), os.getenv('PRAVAH_DB_PASSWORD'), c.get_channel())
 
     for m, c in feed:
-        jsonObj = json.loads(MessageToJson(m))
+        jsonObj = json.loads(MessageToJson(m, including_default_value_fields=True))
         obj = datalake.insert(c, jsonObj)
         print('[TRANSIT] ' + str(obj) + ': ' + c)
 
