@@ -28,7 +28,7 @@ def start():
     datalake = Datalake(os.getenv('PRAVAH_DB_USERNAME'), os.getenv('PRAVAH_DB_PASSWORD'), c.get_channel())
 
     for m, c in feed:
-        jsonObj = json.loads(MessageToJson(m, including_default_value_fields=True))
+        jsonObj = json.loads(MessageToJson(m))
         obj = datalake.insert(c, jsonObj)
         print('[TRANSIT] ' + str(obj) + ': ' + c)
 

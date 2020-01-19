@@ -16,7 +16,7 @@ def start():
     datalake = Datalake(os.getenv('PRAVAH_DB_USERNAME'), os.getenv('PRAVAH_DB_PASSWORD'), c.get_channel())
 
     for m, chan in feed:
-        jsonObj = json.loads(MessageToJson(m, including_default_value_fields=True))
+        jsonObj = json.loads(MessageToJson(m))
 
         obj = datalake.insert(chan, jsonObj)
         print('[AIR_QUALITY] ' + str(obj) + ': ' + chan)
