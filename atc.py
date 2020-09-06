@@ -1,8 +1,8 @@
 import json
 import os
 
-from dlake import Datalake
-from mesh_atc.main import MeshATC
+from db import DB
+from pravah import Pravah
 from google.protobuf.json_format import MessageToJson
 
 geospace = [
@@ -103,14 +103,18 @@ geospace = [
 ]
 
 def start():
-    c = MeshATC('rpc.pravah.io:5555')
+    c = Pravah(
+        '/FlightData',
+        endpoint='rpc.pravah.io:6666',
+        auth_token=os.getenv('PRAVAH_API_KEY')
+    )
     feed = c.subscribe(geospace)
 
-    datalake = Datalake(os.getenv('PRAVAH_DB_USERNAME'), os.getenv('PRAVAH_DB_PASSWORD'), c.get_channel())
+    db = DB('/FlightData')
 
     for m, c in feed:
         jsonObj = json.loads(MessageToJson(m))
-        obj = datalake.insert(c, jsonObj)
+        obj = db.insert(c, jsonObj)
         print('[ATC] ' + str(obj) + ': ' + c)
 
 if '__main__' == __name__:
