@@ -12,3 +12,4 @@ services:
             - PRAVAH_DB_HOST=${PRAVAH_DB_HOST}
             - PRAVAH_API_KEY=${PRAVAH_API_KEY}
         command: python transit.py
+        network_mode: "host"
